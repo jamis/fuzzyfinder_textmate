@@ -1,0 +1,41 @@
+FuzzyFinder: TextMate
+--------------------------
+This is an extension to Takeshi NISHIDA's excellent Fuzzyfinder VIM script[1]. It adds a TextMate mode, for completing file names in a similar fashion to how TextMate[2] does file completion in its cmd-T window.
+
+This extension is partially written in Ruby[3], and it depends on a separate Ruby module (fuzzy_file_finder[4]), so you'll need Vim to be compiled with Ruby support.
+
+
+Usage
+------------------------
+Usage is almost identical to the Fuzzyfinder script, so you should check out the documentation[1] for that (which is very good). The only difference is that to start TextMate mode, you just invoke the :FuzzyFinderTextMate command. It is recommended to map that command to something more agile, e.g.:
+
+  map <leader>t :FuzzyFinderTextMate<CR>
+
+Once in TextMate mode, completion is done against the entire directory tree at once, using partial matches. Results are sorted by "score", which is a measure of how closely the file matches the text you entered.
+
+
+Installation
+-----------------------
+First, make sure you have the Fuzzyfinder script[1]. Install that as per the instructions for that script.
+
+Then, you'll need to install the fuzzy_file_finder[4] Ruby module. The simplest way to do this is via Rubygems:
+
+  gem install --source=http://gems.github.com jamis-fuzzy_file_finder
+
+Alternatively, you can take the lib/fuzzy_file_finder.rb file from that project and put it in ~/.vim/ruby.
+
+Lastly, you'll need to install this extension script. Take the fuzzyfinder_textmate.vim script and put it under ~/.vim/plugin.
+
+
+License
+-----------------------
+Most of this script and its supporting documentation is made available in the PUBLIC DOMAIN. It may be used, modified, and redistributed, almost without exception. The only exceptions are those parts of the code that were copied from NISHIDA's original script; those parts are distributed under the MIT license, as indicated by NISHIDA's code. The parts that were copied are indicated thus by comments.
+
+
+References
+-----------------------
+[1] http://www.vim.org/scripts/script.php?script_id=1984
+[2] http://www.macromates.com
+[3] http://www.ruby-lang.org
+[4] http://github.com/jamis/fuzzy_file_finder/tree/master
+
