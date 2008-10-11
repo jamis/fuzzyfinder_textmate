@@ -36,7 +36,13 @@ ruby << RUBY
   require 'fuzzy_file_finder'
 RUBY
 
-  ruby def finder; @finder ||= FuzzyFileFinder.new; end
+  " Configuration option: g:fuzzy_roots
+  " Specifies roots in which the FuzzyFinder will search.
+  if !exists('g:fuzzy_roots')
+    :let g:fuzzy_roots = ['.']
+  endif
+
+  ruby def finder; @finder ||= FuzzyFileFinder.new(VIM.evaluate("g:fuzzy_roots").split("\n")); end
 
   let g:FuzzyFinderMode.TextMate = copy(g:FuzzyFinderMode.Base)
 
