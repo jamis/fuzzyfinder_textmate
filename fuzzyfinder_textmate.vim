@@ -42,7 +42,13 @@ ruby << RUBY
   end
 RUBY
 
-  ruby def finder; @finder ||= FuzzyFileFinder.new; end
+  " Configuration option: g:fuzzy_roots
+  " Specifies roots in which the FuzzyFinder will search.
+  if !exists('g:fuzzy_roots')
+    :let g:fuzzy_roots = ['.']
+  endif
+
+  ruby def finder; @finder ||= FuzzyFileFinder.new(VIM.evaluate("g:fuzzy_roots").split("\n")); end
 
   let g:FuzzyFinderMode.TextMate = copy(g:FuzzyFinderMode.Base)
 
@@ -66,7 +72,7 @@ RUBY
     let result = []
     ruby << RUBY
       matches = finder.find(VIM.evaluate('self.remove_prompt(a:base)'), VIM.evaluate('self.matching_limit').to_i + 1)
-      matches.sort_by { |a| [-a[:score], a[:path]] }.each_with_index do |match, index|
+      matches.sort_by { |a| [-a[:score], a[:path]] }[0,50].each_with_index do |match, index|
         word = match[:path]
         abbr = "%2d: %s" % [index+1, match[:abbr]]
         menu = "[%5d]" % [match[:score] * 10000]
