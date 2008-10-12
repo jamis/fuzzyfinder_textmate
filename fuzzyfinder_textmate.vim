@@ -25,15 +25,21 @@ command! -bang -narg=? -complete=file   FuzzyFinderTextMate   call FuzzyFinderTe
 
 function! InstantiateTextMateMode() "{{{
 ruby << RUBY
-  $LOAD_PATH << "#{ENV['HOME']}/.vim/ruby"
-
   begin
-    require 'rubygems'
-    gem 'fuzzy_file_finder'
+    require "#{ENV['HOME']}/.vim/ruby/fuzzy_file_finder"
   rescue LoadError
-  end
+    begin
+      require 'rubygems'
+      begin
+        gem 'fuzzy_file_finder'
+      rescue Gem::LoadError
+        gem 'jamis-fuzzy_file_finder'
+      end
+    rescue LoadError
+    end
 
-  require 'fuzzy_file_finder'
+    require 'fuzzy_file_finder'
+  end
 RUBY
 
   ruby def finder; @finder ||= FuzzyFileFinder.new; end
