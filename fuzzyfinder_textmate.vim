@@ -45,10 +45,16 @@ RUBY
   " Configuration option: g:fuzzy_roots
   " Specifies roots in which the FuzzyFinder will search.
   if !exists('g:fuzzy_roots')
-    :let g:fuzzy_roots = ['.']
+    let g:fuzzy_roots = ['.']
   endif
 
-  ruby def finder; @finder ||= FuzzyFileFinder.new(VIM.evaluate("g:fuzzy_roots").split("\n")); end
+  " Configuration option: g:fuzzy_ceiling
+  " Specifies the maximum number of files that FuzzyFinder allows to be searched
+  if !exists('g:fuzzy_ceiling')
+    let g:fuzzy_ceiling = 10000
+  endif
+
+  ruby def finder; @finder ||= FuzzyFileFinder.new(VIM.evaluate("g:fuzzy_roots").split("\n"), VIM.evaluate("g:fuzzy_ceiling").to_i); end
 
   let g:FuzzyFinderMode.TextMate = copy(g:FuzzyFinderMode.Base)
 
