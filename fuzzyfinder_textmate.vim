@@ -55,7 +55,8 @@ RUBY
   endif
 
   " Configuration option: g:fuzzy_ignore
-  " A semi-colon delimited list of file glob patterns to ignore
+  " A delimited list of file glob patterns to ignore. Entries may be delimited
+  " with either commas or semi-colons.
   if !exists('g:fuzzy_ignore')
     let g:fuzzy_ignore = ""
   endif
@@ -70,7 +71,7 @@ ruby << RUBY
     @finder ||= begin
       roots = VIM.evaluate("g:fuzzy_roots").split("\n")
       ceiling = VIM.evaluate("g:fuzzy_ceiling").to_i
-      ignore = VIM.evaluate("g:fuzzy_ignore").split(/;/)
+      ignore = VIM.evaluate("g:fuzzy_ignore").split(/[;,]/)
       FuzzyFileFinder.new(roots, ceiling, ignore)
     end
   end

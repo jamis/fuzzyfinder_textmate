@@ -17,7 +17,7 @@ There are several different variables that you may set in your .vimrc file that 
 
 * g:fuzzy_roots - this defaults to the current directory, but may be set to an array of paths that you want the finder to search.
 * g:fuzzy_ceiling - this defaults to 10,000, and is the maximum number of files that the finder will scan before it raises an error. To use the finder on larger trees, set this variable to a value larger than the number of files you expect to scan.
-* g:fuzzy_ignore - this is a semi-colon delimited list of file glob patterns to ignore.
+* g:fuzzy_ignore - this is a delimited list of file glob patterns to ignore. Entries may be delimited using either semi-colons or commas.
 * g:fuzzy_matching_limit - this is the maximum number of items that will be matched, and defaults to 200. If the finder feels sluggish to you, you can reduce this to something smaller (100, or 50).
 
 Installation
