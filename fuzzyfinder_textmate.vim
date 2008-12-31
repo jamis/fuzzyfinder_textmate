@@ -17,6 +17,33 @@ function! s:HighlightError()
   syntax clear
   syntax match Error  /^.*$/
 endfunction
+
+function! s:OpenBuffer(nr, mode)
+  execute printf([
+        \   ':%sbuffer',
+        \   ':%ssbuffer',
+        \   ':vertical :%ssbuffer',
+        \   ':tab :%ssbuffer',
+        \ ][a:mode], a:nr)
+endfunction
+
+function! s:OpenFile(path, mode)
+  let nr = bufnr('^' . a:path . '$')
+  if nr > -1
+    call s:OpenBuffer(nr, a:mode)
+  else
+    execute [
+          \   ':edit ',
+          \   ':split ',
+          \   ':vsplit ',
+          \   ':tabedit ',
+          \ ][a:mode] . s:EscapeFilename(a:path)
+  endif
+endfunction
+
+function! s:EscapeFilename(fn)
+  return escape(a:fn, " \t\n*?[{`$%#'\"|!<")
+endfunction
 " ------------------------------------------------------------------------------------
 " }}}
 " ====================================================================================
@@ -130,6 +157,10 @@ RUBY
 
   function! FuzzyFinderTextMateLauncher(initial_text, partial_matching)
     call g:FuzzyFinderMode.TextMate.launch(a:initial_text, a:partial_matching)
+  endfunction
+
+  function! g:FuzzyFinderMode.TextMate.on_open(expr, mode)
+    call s:OpenFile(fnamemodify(a:expr, ':~:.'), a:mode)
   endfunction
 
   let g:FuzzyFinderOptions.TextMate = copy(g:FuzzyFinderOptions.File)
